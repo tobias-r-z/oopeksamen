@@ -49,7 +49,28 @@ class fisk {
     if ((this.pos.y > height) || (this.pos.y < 0)) {
         this.vel.y = this.vel.y * -1;
     }
+  }
 }
+
+class byttefisk extends fisk {
+  sult(){
+    if(mad.show==true||this.pos!=mad.pos){
+      this.pos=
+      
+    }
+  }
+}
+class mad {
+  constructor(pos){
+    this.pos=pos
+  }
+  vandbevægelse(){
+    this.pos=this.pos.add(random(0.1,0.5))
+  }
+  show(){
+    fill("green")
+    rect(this.pos.x,this.pos.y,10,10)
+  }
 }
 //en klasse som laver en vektor, til fisk og andre ting
 class Vektor {
