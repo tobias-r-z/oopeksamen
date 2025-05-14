@@ -1,18 +1,27 @@
+
 let bvektor
 let velvektor
 let bfisk
+let food
+let vfood
 
 function setup() {
   createCanvas(400, 400);
   bvektor = new Vektor(150,200)
   velvektor = new Vektor(1,1)
-  bfisk = new fisk(bvektor,velvektor,60,30);
+  bfisk = new byttefisk(bvektor,velvektor,60,30);
+  vfood = new Vektor(random(50,350),random(50,350))
+  food = new mad(vfood)
+
 }
 
 function draw() {
-  background(220);
+  background(100,70,200);
   bfisk.show("orange","white");
+  bfisk.sult(food);
   bfisk.update()
+  food.show(bfisk);
+  food.vandbevægelse();
 }
 
 
@@ -26,7 +35,6 @@ class fisk {
   }
   //funktion som skubber fisken, med en bestemt fart pr. frame.
   update(){
-    this.pos=this.pos.add(this.vel)
     this.boundaryCheck()
 }
   //funktion som tegner selve fisken.
@@ -53,23 +61,37 @@ class fisk {
 }
 
 class byttefisk extends fisk {
-  sult(){
-    if(mad.show==true||this.pos!=mad.pos){
-      this.pos=
-      
+  sult(mad){
+    if(mad.real===true){
+      let vinkel = Math.atan2(mad.pos.y-this.pos.y, mad.pos.x-this.pos.x)
+      let fart = 2;
+      let ev = new Vektor(Math.cos(vinkel)*fart,Math.sin(vinkel)*fart)
+      this.pos=this.pos.add(ev)
     }
   }
 }
 class mad {
   constructor(pos){
     this.pos=pos
+    this.real=false
   }
   vandbevægelse(){
-    this.pos=this.pos.add(random(0.1,0.5))
+    this.pos = this.pos.add(new Vektor(random(-0.5, 0.5), random(-0.5, 0.5)));
   }
-  show(){
+  show(fisk){
     fill("green")
     rect(this.pos.x,this.pos.y,10,10)
+    this.real = true
+    //en variabel som viser afstanden mellem fisken og maden
+    
+  let dx = fisk.pos.x - this.pos.x;
+  let dy = fisk.pos.y - this.pos.y;
+  let afstand = Math.sqrt(dx * dx + dy * dy);
+
+  if (afstand < 10) {
+    this.pos.x = random(50, 300);
+    this.pos.y = random(50, 300);
+  }
   }
 }
 //en klasse som laver en vektor, til fisk og andre ting
