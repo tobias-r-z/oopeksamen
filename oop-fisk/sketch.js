@@ -4,34 +4,45 @@ let velvektor
 let bfisk
 let food
 let vfood
+let rvektor
+let rfisk
 
 function setup() {
-  createCanvas(400, 400);
-  bvektor = new Vektor(150,200)
-  velvektor = new Vektor(1,1)
-  bfisk = new byttefisk(bvektor,velvektor,60,30);
-  vfood = new Vektor(random(50,350),random(50,350))
+  createCanvas(800, 600);
+  bvektor = new Vektor(150,200);
+  rvektor= new Vektor(750,500);
+  bfisk = new byttefisk(bvektor,60,30);
+  vfood = new Vektor(random(1,800),random(1,600))
   food = new mad(vfood)
+  rfisk = new rovfisk(rvektor,80,50)
 
 }
 
 function draw() {
   background(100,70,200);
+
   bfisk.show("orange","white");
   bfisk.sult(food);
-  bfisk.update()
+  bfisk.update();
+  bfisk.spist(rfisk);
+  bfisk.jaget(rfisk);
+  
+
   food.show(bfisk);
   food.vandbevægelse();
+
+  rfisk.show("black","blue");
+  rfisk.update();
+  rfisk.jagt(bfisk);
 }
 
 
 class fisk {
 //parameter har en vektor som position og to size parameter for længde og bredde, samt en hastighedsvektor.
-  constructor(pos,vel,sizeX,sizeY){
+  constructor(pos,sizeX,sizeY){
     this.pos=pos
     this.sizeX=sizeX
     this.sizeY=sizeY
-    this.vel=vel
   }
   //funktion som skubber fisken, med en bestemt fart pr. frame.
   update(){
@@ -69,7 +80,39 @@ class byttefisk extends fisk {
       this.pos=this.pos.add(ev)
     }
   }
+  jaget(rovfisk){
+    let dx = rovfisk.pos.x - this.pos.x;
+    let dy = rovfisk.pos.y - this.pos.y;
+    let afstand = Math.sqrt(dx * dx + dy * dy);
+  
+  if(afstand<100){
+    let vinkel = Math.atan2(rovfisk.pos.y-this.pos.y, rovfisk.pos.x-this.pos.x)
+    let fart = -1;
+    let ev = new Vektor(Math.cos(vinkel)*fart,Math.sin(vinkel)*fart)
+    this.pos=this.pos.add(ev)
+  }
 }
+
+  spist(rovfisk){
+    let dx = rovfisk.pos.x - this.pos.x;
+    let dy = rovfisk.pos.y - this.pos.y;
+    let afstand = Math.sqrt(dx * dx + dy * dy);
+  
+    if (afstand < 15) {
+      this.pos.x = random(1, 800);
+      this.pos.y = random(1, 600);
+    }
+  }
+}
+class rovfisk extends fisk {
+  jagt(bytte) {
+    let vinkel = Math.atan2(bytte.pos.y - this.pos.y, bytte.pos.x - this.pos.x);
+    let fart = 1.5;
+    let retning = new Vektor(Math.cos(vinkel) * fart, Math.sin(vinkel) * fart);
+    this.pos = this.pos.add(retning);
+  }
+}
+
 class mad {
   constructor(pos){
     this.pos=pos
@@ -89,8 +132,8 @@ class mad {
   let afstand = Math.sqrt(dx * dx + dy * dy);
 
   if (afstand < 10) {
-    this.pos.x = random(50, 300);
-    this.pos.y = random(50, 300);
+    this.pos.x = random(1, 800);
+    this.pos.y = random(1, 600);
   }
   }
 }
@@ -104,9 +147,4 @@ class Vektor {
     return new Vektor(this.x+other.x,this.y+other.y)
   }
 }
-
-
-
-
-
 
