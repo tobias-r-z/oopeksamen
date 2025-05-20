@@ -79,6 +79,7 @@ class byttefisk extends fisk {
       let ev = new Vektor(Math.cos(vinkel)*fart,Math.sin(vinkel)*fart)
       this.pos=this.pos.add(ev)
     }
+//metoden til at byttefisken skal undvige rovfisken
   }
   jaget(rovfisk){
     let dx = rovfisk.pos.x - this.pos.x;
@@ -86,24 +87,25 @@ class byttefisk extends fisk {
     let afstand = Math.sqrt(dx * dx + dy * dy);
   
   if(afstand<100){
-    let vinkel = Math.atan2(rovfisk.pos.y-this.pos.y, rovfisk.pos.x-this.pos.x)
+    let vinkel = Math.atan2(dy, dx)
     let fart = -1;
     let ev = new Vektor(Math.cos(vinkel)*fart,Math.sin(vinkel)*fart)
     this.pos=this.pos.add(ev)
   }
 }
-
+//metode til når byttefisken bliver spist af rovfisken.
   spist(rovfisk){
     let dx = rovfisk.pos.x - this.pos.x;
     let dy = rovfisk.pos.y - this.pos.y;
     let afstand = Math.sqrt(dx * dx + dy * dy);
   
     if (afstand < 20) {
-      this.pos.x = random(1, 800);
-      this.pos.y = random(1, 600);
+      this.pos.x = random(1, 799);
+      this.pos.y = random(1, 599);
     }
   }
 }
+//rovfisk nedarvning af variablen fisk
 class rovfisk extends fisk {
   jagt(bytte) {
     let vinkel = Math.atan2(bytte.pos.y - this.pos.y, bytte.pos.x - this.pos.x);
@@ -112,29 +114,32 @@ class rovfisk extends fisk {
     this.pos = this.pos.add(retning);
   }
 }
-
+//klasse til byttefiskens mad.
 class mad {
   constructor(pos){
     this.pos=pos
     this.real=false
   }
+  //passiv bevægelse
   vandbevægelse(){
     this.pos = this.pos.add(new Vektor(random(-0.5, 0.5), random(-0.5, 0.5)));
   }
   show(fisk){
     fill("green")
     rect(this.pos.x,this.pos.y,10,10)
-    this.real = true
-    //en variabel som viser afstanden mellem fisken og maden
-    
-  let dx = fisk.pos.x - this.pos.x;
-  let dy = fisk.pos.y - this.pos.y;
-  let afstand = Math.sqrt(dx * dx + dy * dy);
 
-  if (afstand < 10) {
-    this.pos.x = random(1, 800);
-    this.pos.y = random(1, 600);
-  }
+   //en variabel som viser afstanden mellem fisken og maden
+    
+    this.real = true
+    
+    let dx = fisk.pos.x - this.pos.x;
+    let dy = fisk.pos.y - this.pos.y;
+    let afstand = Math.sqrt(dx * dx + dy * dy);
+
+    if (afstand < 10) {
+      this.pos.x = random(1, 799);
+      this.pos.y = random(1, 599);
+    }
   }
 }
 //en klasse som laver en vektor, til fisk og andre ting
@@ -147,4 +152,3 @@ class Vektor {
     return new Vektor(this.x+other.x,this.y+other.y)
   }
 }
-
