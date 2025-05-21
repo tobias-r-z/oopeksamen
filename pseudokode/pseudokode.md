@@ -2,7 +2,7 @@ metode sult(mad){
     hvis mad.real er lig med sandt{
         erklær vinkel = arctan(mad.y-this.y/mad.y-this.y)
         erklær fart = 2
-        erklær enhedsvektor = ny Vektor(cos(vinkel), sin(vinkel))
+        erklær enhedsvektor = ny Vektor(cos(vinkel) * fart, sin(vinkel) * fart)
         this.position += enhedsvektor
     }
 }
