@@ -10,7 +10,7 @@ metode sult(mad){
 jagt(bytte){
     erklær vinkel = arctan(bytte.y-this.y/bytte.y-this.y)
     erklær fart = 1.5
-    erklær enhedsvektor = ny Vektor(cos(vinkel), sin(vinkel))
+    erklær enhedsvektor = ny Vektor(cos(vinkel) * fart, sin(vinkel) * fart)
     this.position += enhedsvektor
 }
 

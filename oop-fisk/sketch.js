@@ -99,7 +99,7 @@ class byttefisk extends fisk {
     let dy = rovfisk.pos.y - this.pos.y;
     let afstand = Math.sqrt(dx * dx + dy * dy);
   
-    if (afstand < 20) {
+    if (afstand < 25) {
       this.pos.x = random(1, 799);
       this.pos.y = random(1, 599);
     }
